@@ -1,5 +1,14 @@
 #!/bin/bash
+#--------------------------------------------------------
+# Downloading Raw Fastq files from GEO for reanalysis
+# GEO Project :	Transcriptional response of human lung epithelial cells to SARS-CoV-2 infection
+# GEO Project ID :GSE147507
+# multiple runs per samples
+# Number of Samples = 20, 4 runs per sample - total files = 80
+#
+#--------------------------------------------------------
 
+## Initialize directories
 data_path="/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/Raw_Fastq"
 data_input="/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai"
 
