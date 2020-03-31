@@ -1,0 +1,10 @@
+#--------------------------------------------------------
+# Downloading Raw Fastq files from GEO for reanalysis
+# GEO Project :	Transcriptional response of human lung epithelial cells to SARS-CoV-2 infection
+# GEO Project ID :GSE147507
+#--------------------------------------------------------
+
+
+# Download "SRR" ids associated to file
+
+for i in $(cat GSE147507_SRR_IDs.txt ); do echo $i; fastq-dump --split-files --gzip $i
