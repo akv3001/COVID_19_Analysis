@@ -1,0 +1,230 @@
+[2020-03-31 12:44:55,240] multiqc                                            [DEBUG  ]  No MultiQC config found: /pbtech_mounts/homes047/akv3001/Programs/miniconda2/lib/python2.7/site-packages/multiqc-1.7.dev0-py2.7.egg/multiqc_config.yaml
+[2020-03-31 12:44:55,240] multiqc                                            [DEBUG  ]  No MultiQC config found: /home/akv3001/.multiqc_config.yaml
+[2020-03-31 12:44:55,240] multiqc                                            [DEBUG  ]  No MultiQC config found: multiqc_config.yaml
+[2020-03-31 12:44:55,240] multiqc                                            [DEBUG  ]  Command used: /home/akv3001/Programs/miniconda2/bin/multiqc ./
+[2020-03-31 12:44:56,095] multiqc                                            [WARNING]  MultiQC Version v1.8 now available!
+[2020-03-31 12:44:56,095] multiqc                                            [INFO   ]  This is MultiQC v1.7.dev0
+[2020-03-31 12:44:56,095] multiqc                                            [DEBUG  ]  Command     : /home/akv3001/Programs/miniconda2/bin/multiqc ./
+[2020-03-31 12:44:56,095] multiqc                                            [DEBUG  ]  Working dir : /athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed
+[2020-03-31 12:44:56,095] multiqc                                            [INFO   ]  Template    : default
+[2020-03-31 12:44:56,095] multiqc                                            [INFO   ]  Searching './'
+[2020-03-31 12:44:56,096] multiqc                                            [DEBUG  ]  Analysing modules: custom_content, conpair, peddy, methylQA, phantompeakqualtools, qualimap, preseq, quast, qorts, rna_seqc, rsem, rseqc, busco, goleft_indexcov, disambiguate, supernova, deeptools, sargasso, verifybamid, mirtrace, happy, homer, macs2, theta2, snpeff, gatk, htseq, bcftools, featureCounts, dedup, picard, prokka, samblaster, samtools, bamtools, jellyfish, vcftools, longranger, bbmap, bismark, biscuit, hicexplorer, hicup, hicpro, salmon, kallisto, slamdunk, star, hisat2, tophat, bowtie2, bowtie1, kat, leehom, adapterRemoval, clipandmerge, cutadapt, flexbar, trimmomatic, skewer, sortmerna, biobloomtools, fastq_screen, afterqc, fastp, fastqc, clusterflow, bcl2fastq, interop
+[2020-03-31 12:44:56,096] multiqc                                            [DEBUG  ]  Using temporary directory for creating report: /tmp/tmpVCuSai
+[2020-03-31 12:45:01,626] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:01,627] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:06,894] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:06,895] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:12,155] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:12,155] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:17,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:17,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:22,711] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:22,711] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:27,918] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:27,918] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:33,192] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:33,193] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:38,408] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:38,408] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:43,670] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:43,671] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:48,989] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:48,989] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:54,301] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:54,301] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:45:59,530] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:45:59,530] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:04,822] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:04,822] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:10,068] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:10,068] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:15,279] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:15,280] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:20,528] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:20,528] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:25,804] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:25,805] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:31,085] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:31,085] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:36,287] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:36,288] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:46:41,558] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: skipped.gtf
+[2020-03-31 12:46:41,558] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: transcripts.gtf
+[2020-03-31 12:47:44,489] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412258_1.fastq.gz
+[2020-03-31 12:47:44,490] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412255_1.fastq.gz
+[2020-03-31 12:47:44,490] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412257_1.fastq.gz
+[2020-03-31 12:47:44,490] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412256_1.fastq.gz
+[2020-03-31 12:47:44,490] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412219_1.fastq.gz
+[2020-03-31 12:47:44,490] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412222_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412221_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412220_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412231_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412232_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412233_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412234_1.fastq.gz
+[2020-03-31 12:47:44,491] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412292_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412294_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412291_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412293_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412242_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412241_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412240_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412239_1.fastq.gz
+[2020-03-31 12:47:44,492] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412264_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412266_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412263_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412265_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412236_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412235_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412238_1.fastq.gz
+[2020-03-31 12:47:44,493] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412237_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412281_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412280_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412279_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412282_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412248_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412247_1.fastq.gz
+[2020-03-31 12:47:44,494] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412250_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412249_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412287_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412289_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412288_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412290_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412270_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412269_1.fastq.gz
+[2020-03-31 12:47:44,495] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412268_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412267_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412260_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412261_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412259_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412262_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412225_1.fastq.gz
+[2020-03-31 12:47:44,496] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412226_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412224_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412223_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412273_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412272_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412274_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412271_1.fastq.gz
+[2020-03-31 12:47:44,497] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412227_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412230_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412228_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412229_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412215_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412217_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412216_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412218_1.fastq.gz
+[2020-03-31 12:47:44,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412275_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412276_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412277_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412278_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412246_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412243_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412245_1.fastq.gz
+[2020-03-31 12:47:44,499] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412244_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412285_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412284_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412286_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412283_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412253_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412254_1.fastq.gz
+[2020-03-31 12:47:44,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412251_1.fastq.gz
+[2020-03-31 12:47:44,501] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR11412252_1.fastq.gz
+[2020-03-31 12:47:44,566] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432378Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:04,071] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432393Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:04,092] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432397Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:11,438] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432389Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:26,498] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432391Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:40,303] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432382Aligned.sortedByCoord.out.bam
+[2020-03-31 12:48:51,245] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432392Aligned.sortedByCoord.out.bam
+[2020-03-31 12:49:01,157] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432380Aligned.sortedByCoord.out.bam
+[2020-03-31 12:49:12,504] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432381Aligned.sortedByCoord.out.bam
+[2020-03-31 12:49:24,002] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432387Aligned.sortedByCoord.out.bam
+[2020-03-31 12:49:41,119] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432383Aligned.sortedByCoord.out.bam
+[2020-03-31 12:49:53,985] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432388Aligned.sortedByCoord.out.bam
+[2020-03-31 12:50:23,396] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432390Aligned.sortedByCoord.out.bam
+[2020-03-31 12:50:23,417] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432384Aligned.sortedByCoord.out.bam
+[2020-03-31 12:50:39,569] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432385Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:05,865] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432395Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:18,301] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432386Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:18,500] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432396Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:39,857] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432394Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:50,787] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: GSM4432379Aligned.sortedByCoord.out.bam
+[2020-03-31 12:51:53,831] multiqc                                            [DEBUG  ]  No samples found: custom_content
+[2020-03-31 12:51:53,863] multiqc                                            [DEBUG  ]  No samples found: conpair
+[2020-03-31 12:51:53,888] multiqc                                            [DEBUG  ]  No samples found: peddy
+[2020-03-31 12:51:53,903] multiqc                                            [DEBUG  ]  No samples found: methylQA
+[2020-03-31 12:51:53,929] multiqc                                            [DEBUG  ]  No samples found: phantompeakqualtools
+[2020-03-31 12:51:53,979] multiqc                                            [DEBUG  ]  No samples found: qualimap
+[2020-03-31 12:51:54,012] multiqc                                            [DEBUG  ]  No samples found: preseq
+[2020-03-31 12:51:54,036] multiqc                                            [DEBUG  ]  No samples found: quast
+[2020-03-31 12:51:54,058] multiqc                                            [DEBUG  ]  No samples found: qorts
+[2020-03-31 12:51:54,088] multiqc                                            [DEBUG  ]  No samples found: rna_seqc
+[2020-03-31 12:51:54,122] multiqc                                            [DEBUG  ]  No samples found: rsem
+[2020-03-31 12:51:54,172] multiqc                                            [DEBUG  ]  No samples found: rseqc
+[2020-03-31 12:51:54,205] multiqc                                            [DEBUG  ]  No samples found: busco
+[2020-03-31 12:51:54,222] multiqc                                            [DEBUG  ]  No samples found: goleft_indexcov
+[2020-03-31 12:51:54,246] multiqc                                            [DEBUG  ]  No samples found: disambiguate
+[2020-03-31 12:51:54,270] multiqc                                            [DEBUG  ]  No samples found: supernova
+[2020-03-31 12:51:54,322] multiqc                                            [DEBUG  ]  No samples found: deeptools
+[2020-03-31 12:51:54,339] multiqc                                            [DEBUG  ]  No samples found: sargasso
+[2020-03-31 12:51:54,362] multiqc                                            [DEBUG  ]  No samples found: verifybamid
+[2020-03-31 12:51:54,374] multiqc                                            [DEBUG  ]  No samples found: mirtrace
+[2020-03-31 12:51:54,400] multiqc                                            [DEBUG  ]  No samples found: happy
+[2020-03-31 12:51:54,429] multiqc                                            [DEBUG  ]  No samples found: homer
+[2020-03-31 12:51:54,461] multiqc                                            [DEBUG  ]  No samples found: macs2
+[2020-03-31 12:51:54,466] multiqc                                            [DEBUG  ]  No samples found: theta2
+[2020-03-31 12:51:54,485] multiqc                                            [DEBUG  ]  No samples found: snpeff
+[2020-03-31 12:51:54,519] multiqc                                            [DEBUG  ]  No samples found: gatk
+[2020-03-31 12:52:00,943] multiqc.modules.htseq.htseq                        [INFO   ]  Found 20 reports
+[2020-03-31 12:52:01,000] multiqc                                            [DEBUG  ]  No samples found: bcftools
+[2020-03-31 12:52:01,026] multiqc                                            [DEBUG  ]  No samples found: featureCounts
+[2020-03-31 12:52:01,068] multiqc                                            [DEBUG  ]  No samples found: dedup
+[2020-03-31 12:52:01,144] multiqc                                            [DEBUG  ]  No samples found: picard
+[2020-03-31 12:52:01,155] multiqc                                            [DEBUG  ]  No samples found: prokka
+[2020-03-31 12:52:01,162] multiqc                                            [DEBUG  ]  No samples found: samblaster
+[2020-03-31 12:52:01,218] multiqc                                            [DEBUG  ]  No samples found: samtools
+[2020-03-31 12:52:01,233] multiqc                                            [DEBUG  ]  No samples found: bamtools
+[2020-03-31 12:52:01,275] multiqc                                            [DEBUG  ]  No samples found: jellyfish
+[2020-03-31 12:52:01,307] multiqc                                            [DEBUG  ]  No samples found: vcftools
+[2020-03-31 12:52:01,321] multiqc                                            [DEBUG  ]  No samples found: longranger
+[2020-03-31 12:52:01,371] multiqc                                            [DEBUG  ]  No samples found: bbmap
+[2020-03-31 12:52:01,408] multiqc                                            [DEBUG  ]  No samples found: bismark
+[2020-03-31 12:52:01,431] multiqc                                            [DEBUG  ]  No samples found: biscuit
+[2020-03-31 12:52:01,449] multiqc                                            [DEBUG  ]  No samples found: hicexplorer
+[2020-03-31 12:52:01,455] multiqc                                            [DEBUG  ]  No samples found: hicup
+[2020-03-31 12:52:01,489] multiqc                                            [DEBUG  ]  No samples found: hicpro
+[2020-03-31 12:52:01,518] multiqc                                            [DEBUG  ]  No samples found: salmon
+[2020-03-31 12:52:01,525] multiqc                                            [DEBUG  ]  No samples found: kallisto
+[2020-03-31 12:52:01,540] multiqc                                            [DEBUG  ]  No samples found: slamdunk
+[2020-03-31 12:52:01,569] multiqc.modules.star.star                          [INFO   ]  Found 20 reports
+[2020-03-31 12:52:01,576] multiqc                                            [DEBUG  ]  No samples found: hisat2
+[2020-03-31 12:52:01,594] multiqc                                            [DEBUG  ]  No samples found: tophat
+[2020-03-31 12:52:01,611] multiqc                                            [DEBUG  ]  No samples found: bowtie2
+[2020-03-31 12:52:01,627] multiqc                                            [DEBUG  ]  No samples found: bowtie1
+[2020-03-31 12:52:01,638] multiqc                                            [DEBUG  ]  No samples found: kat
+[2020-03-31 12:52:01,650] multiqc                                            [DEBUG  ]  No samples found: leehom
+[2020-03-31 12:52:01,686] multiqc                                            [DEBUG  ]  No samples found: adapterRemoval
+[2020-03-31 12:52:01,704] multiqc                                            [DEBUG  ]  No samples found: clipandmerge
+[2020-03-31 12:52:01,734] multiqc                                            [DEBUG  ]  No samples found: cutadapt
+[2020-03-31 12:52:01,774] multiqc                                            [DEBUG  ]  No samples found: flexbar
+[2020-03-31 12:52:01,800] multiqc                                            [DEBUG  ]  No samples found: trimmomatic
+[2020-03-31 12:52:01,813] multiqc                                            [DEBUG  ]  No samples found: skewer
+[2020-03-31 12:52:01,819] multiqc                                            [DEBUG  ]  No samples found: sortmerna
+[2020-03-31 12:52:01,835] multiqc                                            [DEBUG  ]  No samples found: biobloomtools
+[2020-03-31 12:52:01,854] multiqc                                            [DEBUG  ]  No samples found: fastq_screen
+[2020-03-31 12:52:01,878] multiqc                                            [DEBUG  ]  No samples found: afterqc
+[2020-03-31 12:52:01,890] multiqc                                            [DEBUG  ]  No samples found: fastp
+[2020-03-31 12:52:01,931] multiqc                                            [DEBUG  ]  No samples found: fastqc
+[2020-03-31 12:52:01,965] multiqc                                            [DEBUG  ]  No samples found: clusterflow
+[2020-03-31 12:52:01,988] multiqc                                            [DEBUG  ]  No samples found: bcl2fastq
+[2020-03-31 12:52:02,025] multiqc                                            [DEBUG  ]  No samples found: interop
+[2020-03-31 12:52:02,043] multiqc                                            [INFO   ]  Compressing plot data
+[2020-03-31 12:52:02,066] multiqc                                            [INFO   ]  Report      : multiqc_report.html
+[2020-03-31 12:52:02,067] multiqc                                            [INFO   ]  Data        : multiqc_data
+[2020-03-31 12:52:02,067] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpVCuSai/multiqc_data/multiqc_htseq.txt' to '/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed/multiqc_data'
+[2020-03-31 12:52:02,068] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpVCuSai/multiqc_data/multiqc_star.txt' to '/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed/multiqc_data'
+[2020-03-31 12:52:02,069] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpVCuSai/multiqc_data/multiqc_general_stats.txt' to '/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed/multiqc_data'
+[2020-03-31 12:52:02,069] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpVCuSai/multiqc_data/multiqc_sources.txt' to '/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed/multiqc_data'
+[2020-03-31 12:52:02,069] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpVCuSai/multiqc_data/multiqc_data.json' to '/athena/elementolab/scratch/akv3001/COVID_19/COV2_RNASeq_sinai/RNASeq_Processed/multiqc_data'
+[2020-03-31 12:52:02,344] multiqc                                            [INFO   ]  MultiQC complete
