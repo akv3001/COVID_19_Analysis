@@ -1,0 +1,767 @@
+---
+title: "SARS-COV2 Transcriptome Re-Analysis"
+author: "Akanksha Verma"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    theme: bootstrap
+   # social: menu
+    #source_code: embed
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+library(plyr)
+library(DT)
+library(flexdashboard)
+library(ggbiplot)
+library(ggsci)
+library(plotly)
+library(ggpubr)
+library(pheatmap)
+source('RNA_Seq_DE_Functions.R')
+```
+
+Reanalysis RNA-Seq (GSE147507)
+=======================================================================
+
+Row {data-height=3000}
+-----------------------------------------------------------------------
+### Summary of Data/ Analysis 
+
+ * 20 Samples total 
+ * source cell lines - A549 ( Lung Adenocarcinoma), NHBE ( Primary Human Bronchial Lung Epithelium Cells )
+ * Raw Fastq Downloaded from GEO:GSE147507
+ * Aligned to hg38 using STAR
+ * Raw Counts using HTSeq
+ * Normalized Expression FPKM
+ 
+ **Infected with 3 strains:**
+ 
+ * SARS-Cov2 - US/WA1 Strain
+ * Respiratory syncytial virus(RSV) 
+ * Influenza A (IAV)
+     
+     
+  **Multiplicity of infection (MOI) variables - [ ratio of virions to target cells ]**
+   
+  * SAR-Cov2 in NHBE - MOI 2.0
+  * SAR-Cov2 in A549 - MOI 0.2
+  * RSV in A549 - MOI 15
+  * IAV in A549 - MOI 5
+     
+  **Differential Expression**
+  
+   * A549 : SARS-CoV2 (MOI 0.2) vs. Cov2-Mock
+   * NHBE : SARS-CoV2 (MOI 2) vs. Cov2-Mock
+ 
+
+Row {data-height=4000}
+-----------------------------------------------------------------------
+
+### Sample Annotation
+
+```{r annotation, include=TRUE, echo=FALSE}
+
+metadata = read.csv('../GSE147507_Sample_Metadata.csv')
+metadata = unique(metadata[,c("Sample.Name","source_name","Cell_Line","Cell_type","time_point","treatment","strain")])
+sample_id_geo = read.table('~/Desktop/id_GSM.txt',header = TRUE)
+
+metadata = merge(sample_id_geo,metadata, by="Sample.Name")
+metadata$Comparison = c(rep(c("SARS_MOCK_NHBE"),3),rep("SARS_Cov2_NHBE",3),rep("SARS_MOCK_A549",3),rep("SARS_Cov2_A549",3),rep("svRNA184_MOCK_A549",2),rep("svRNA184_RSV_A549",2),rep("3_9_MOCK_A549",2),rep("3_9_IAV_A549",2))
+
+# Add color schemea
+# Using ggsci library with jama color codes
+hmcols<-colorRampPalette(c("blue","white","red"))(256)
+
+```
+
+```{r annotable, echo=FALSE}
+datatable(metadata, extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+  
+
+```
+
+
+
+```{r DataInput}
+
+FPKM = read.table('../Raw_Fastq_FPKM.txt', header=TRUE, row.names = 1, sep="\t")
+#FPKM.summ = ddply(FPKM,"Gene_Symbol", numcolwise(mean))
+#save(FPKM.summ,file="FPKM_summ.RData")
+load("FPKM_summ.RData")
+FPKM.summ = FPKM.summ[which(rowSums(FPKM.summ[,-1]) >0),]
+mapped_id = rownames(FPKM)[which(FPKM$Gene_Symbol %in% FPKM.summ$Gene_Symbol)]
+COUNTS = read.table('../Raw_Fastq_Counts-Count.txt', header=TRUE, row.names = 1, sep="\t")
+COUNTS = COUNTS[mapped_id,]
+```
+
+Row { data-height=8000 }
+-----------------------------------------------------------------------
+
+### Principle Component Analysis 
+    
+```{r}
+library(ggbiplot)
+data <- cor( log2(FPKM.summ[,-1]+1) )
+data <- data[,apply(data, 2, var, na.rm=TRUE) != 0]
+PC <- princomp(round(data,2),cor=TRUE,scores=TRUE)
+
+
+
+```
+
+```{r plotpca  }
+library(plotly)
+pca=ggbiplot(PC, cex=3,xlab="PC1",ylab="PC2",cex.lab = 1,cex.main=2,main = "PCA Analysis",choices = c(1,2),var.axes = F,scale = 0,ellipse = FALSE,groups = metadata$treatment)+ 
+  geom_point(aes(colour=metadata$treatment),size = 2) + 
+  ggtitle("Principle Component Analysis - ALL Samples")+
+  theme(legend.direction ='horizontal',legend.position='top', legend.title=element_blank(),legend.text=element_text(size=12)) +   scale_color_lancet()
+
+ggplotly(pca)
+```
+
+    
+### QC Genes
+
+```{r qc genes }
+
+#TMPRSS2 Genes
+
+sel_genes = as.data.frame(t(FPKM[FPKM$Gene_Symbol == "TMPRSS2",]))
+sel_genes = sel_genes[-1,drop=FALSE,]
+sel_genes$ENSG00000184012.10 = as.numeric(as.character(sel_genes$ENSG00000184012.10))
+sel_genes = merge(sel_genes,y = metadata,by.x="row.names",by.y="Sample.Name" )
+sel_genes$ENSG00000184012.10 = log2(sel_genes$ENSG00000184012.10+1) # Log transformed
+sel_genes$Condition_byCellLine = paste(sel_genes$Cell_Line,sel_genes$Condition,"_")
+ggplotly(ggbarplot(sel_genes,y="ENSG00000184012.10",x = "Condition_byCellLine", fill ="Comparison",
+          ylab = "log2(FPKM+1)", main = "TMPRSS2 Genes Expression",xlab = "")+  
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90,size=10),axis.text.y = element_text(size=15))
+)
+
+```
+
+
+
+
+A549 Comparisons
+=======================================================================
+
+Row {data-height=200}
+-------------------------------------
+**Differential Expression Analysis**
+
+  * Using Limma with voom transformation
+  * A549 SARS_CoV2 vs. Mock_Cov2
+  * N = 175 significantly changed genes with  cut off FDR < 0.05 
+
+```{r DE, echo = FALSE}
+
+
+set.seed(20)
+input <- metadata[which(metadata$Cell_Line == "A549"),c(1,9)]
+input = input[which(input$Comparison %in% c("SARS_MOCK_A549","SARS_Cov2_A549")),]
+COUNTS.input <- COUNTS[,as.matrix(input$Sample.Name)]
+input <- as.matrix(input)
+condition <- c("SARS_Cov2_A549","SARS_MOCK_A54")
+comparison = paste(condition[1],"-",condition[2] ,sep="")
+Create_Design(input,condition,comparison = comparison)
+A549_COV2_vs_Mock = suppressMessages(CallLimma(COUNTS.input,design,contmatrix))
+A549_COV2_vs_Mock = merge(FPKM[,1,drop=FALSE],A549_COV2_vs_Mock,by="row.names")
+
+
+Sign_A549_COV2_vs_Mock <- A549_COV2_vs_Mock[which(A549_COV2_vs_Mock$adj.P.Val < 0.05),]
+Sign_A549_COV2_vs_Mock_UP <- Sign_A549_COV2_vs_Mock[which( Sign_A549_COV2_vs_Mock$logFC > 0 ),]
+Sign_A549_COV2_vs_Mock_DOWN <- Sign_A549_COV2_vs_Mock[which(Sign_A549_COV2_vs_Mock$logFC < 0),]
+
+
+anno.hm = as.data.frame(input)
+rownames(anno.hm) = anno.hm$Sample.Name
+anno.hm = anno.hm[,-1,drop=FALSE]
+
+```
+
+Row {data-height=800}
+-------------------------------------
+
+### Heatmap A549 - Sars_Cov2
+```{r}
+
+input <- metadata[which(metadata$Cell_Line == "A549"),c(1,9)]
+input = input[which(input$Comparison %in% c("SARS_MOCK_A549","SARS_Cov2_A549")),]
+
+Select_matrix = FPKM.summ
+rownames(Select_matrix) <- FPKM.summ$Gene_Symbol
+Select_matrix= Select_matrix[,-1]
+Select_matrix <- Select_matrix[as.matrix(Sign_A549_COV2_vs_Mock$Gene_Symbol),as.matrix(input$Sample.Name)]
+
+Select_matrix <- Select_matrix[which(rowSums(Select_matrix) > 0 ),]
+
+
+
+classanno = ggsci::pal_lancet()(4)[3:4]
+names(classanno) = unique(input$Comparison)
+classanno = list(Comparison = classanno)
+input_anno = input
+rownames(input_anno)=input_anno$Sample.Name
+input_anno=input_anno[,-1,drop=FALSE]
+pheatmap(as.matrix( log2(Select_matrix+1)),
+         annotation = input_anno,
+         color = hmcols,border_color = 'grey',
+         scale="row",fontsize_row = 3,annotation_colors = classanno,
+         main = paste("N=",nrow(Select_matrix)," Genes - A549 -SARS_CoV2")
+)
+
+
+```
+
+### Volcano Plot - Sars_Cov2 A549
+```{r volcanoSARSCov2 }
+
+res = A549_COV2_vs_Mock
+with(res, plot(logFC, -log10(P.Value), pch=20, main="A549 SARS-Cov2 - Volcano plot", xlim=c(-6,8)))
+
+# Add colored points: red if padj<0.05, orange of log2FC>1, green if both)
+with(subset(res, adj.P.Val<.05 ), points(logFC, -log10(P.Value), pch=20, col="red"))
+with(subset(res, abs(logFC)>1), points(logFC, -log10(P.Value), pch=20, col="orange"))
+with(subset(res, adj.P.Val<.05 & abs(logFC)>1), points(logFC, -log10(P.Value), pch=20, col="green"))
+
+# Label points with the textxy function from the calibrate plot
+library(calibrate)
+with(subset(res, adj.P.Val<.05 & abs(logFC)>1), textxy(logFC, -log10(P.Value), labs=Gene_Symbol, cex=.5))
+
+```
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+### DE Stats all genes (A549 SARS_CoV2 vs. Mock_Cov2)
+```{r allgenesA549_Cov2}
+A549_COV2_vs_Mock = A549_COV2_vs_Mock[order(A549_COV2_vs_Mock$P.Value),]
+datatable(A549_COV2_vs_Mock, extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+
+### Significanty Upregulated  in SAR-CoV2-A549 ( FDR < 0.05) 
+```{r Significant_COv2_A549, echo  = FALSE}
+Sign_A549_COV2_vs_Mock_UP = Sign_A549_COV2_vs_Mock_UP[order(Sign_A549_COV2_vs_Mock_UP$P.Value),]
+datatable(Sign_A549_COV2_vs_Mock_UP, extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+### Significanty Downregulated in SAR-CoV2-A549  ( FDR < 0.05) (A549 SARS_CoV2 vs. Mock_Cov2)
+```{r Significant_COv2_A549_DN, echo  = FALSE}
+Sign_A549_COV2_vs_Mock_DOWN = Sign_A549_COV2_vs_Mock_DOWN[order(Sign_A549_COV2_vs_Mock_DOWN$P.Value),]
+datatable(Sign_A549_COV2_vs_Mock_DOWN,extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+```{r GSEA_A459, echo  = FALSE}
+
+library(fgsea)
+library(qusage)
+
+KEGG_DB = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c2.cp.kegg.v6.2.symbols.gmt')
+REACTOME_DB = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c2.cp.reactome.v6.2.symbols.gmt')
+GO_BP = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c5.bp.v7.0.symbols.gmt')
+input_ranked = A549_COV2_vs_Mock$t
+names(input_ranked) = A549_COV2_vs_Mock$Gene_Symbol
+
+A549_KEGG = fgsea(KEGG_DB,stats = input_ranked,nperm = 10000,minSize = 15)
+A549_reactome = fgsea(REACTOME_DB,stats = input_ranked,nperm = 10000,minSize = 15)
+A549_GO = fgsea(GO_BP,stats = input_ranked,nperm = 10000,minSize = 15)
+
+
+```
+A549 - Pathways
+=======================================================================
+
+Row {data-height=400}
+-------------------------------------
+
+### Pathway analysis summary
+
+  **GSEA Pathway analysis perforemd on A549 ( MOI 0.2 ) SARS-Cov2 vs. SARS2-Cov2-Mock**
+  
+  * Using the Following Databses:
+  
+    * KEGG (Version 6.2 msigDB)
+    * REACTOME (Version 6.2 msigDB )
+    * GO Biological Processes (Version 7 msigDB)
+  
+  * FDR < 0.25 
+  
+Row {.tabset .tabset-fade}
+-------------------------------------
+### KEGG Significanty Enriched Pathway Up in A549-SARS_Cov2 ( FDR < 0.25)
+
+
+```{r Significant_COv2_A549_KEGGUP, echo  = FALSE}
+datatable(A549_KEGG[which(A549_KEGG$padj < 0.25 & A549_KEGG$NES > 0),], 
+          extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+
+```
+
+### KEGG Significanty Enriched Pathway Down in A549-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_A549_KEGGDN, echo  = FALSE}
+datatable(A549_KEGG[which(A549_KEGG$padj < 0.25 & A549_KEGG$NES < 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+```
+
+### REACTOME - Significanty Enriched Pathway Up in A549-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_A549_REACUP, echo  = FALSE}
+datatable(A549_reactome[which(A549_reactome$padj < 0.25 & A549_reactome$NES > 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+  )
+
+```
+
+### REACTOME - Significanty Enriched Pathway Down in A549-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_A549_REACDN, echo  = FALSE}
+datatable(A549_reactome[which(A549_reactome$padj < 0.25 & A549_reactome$NES < 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+
+### GO Pathways - Significanty Enriched Pathway Up in A549-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_A549_GO_UP, echo  = FALSE}
+datatable(A549_GO[which(A549_GO$padj < 0.25 & A549_GO$NES > 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+  )
+    
+)
+
+```
+
+
+
+### GO Pathways - Significanty Enriched Pathway Down in A549-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_A549_GO_DN, echo  = FALSE}
+datatable(A549_GO[which(A549_GO$padj < 0.25 & A549_GO$NES < 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+  )
+    
+)
+
+```
+
+
+
+
+
+
+NHBE Comparisons
+=======================================================================
+
+Row {data-height=200}
+-------------------------------------
+### Differential Expression Analysis
+
+  * Using Limma with voom transformation
+  * SARS_Cov2 NHBE vs. SARS CoV2 MOCK
+  * N= 252 Signficantly Genes with cut off FDR < 0.05
+  
+
+```{r DESign_NHBE_COV2_vs_Mock, echo = FALSE}
+
+
+set.seed(20)
+input <- metadata[which(metadata$Cell_Line == "NHBE"),c(1,9)]
+input = input[which(input$Comparison %in% c("SARS_MOCK_NHBE","SARS_Cov2_NHBE")),]
+COUNTS.input <- COUNTS[,as.matrix(input$Sample.Name)]
+input <- as.matrix(input)
+condition <- c("SARS_Cov2_NHBE","SARS_MOCK_NHBE")
+comparison = paste(condition[1],"-",condition[2] ,sep="")
+Create_Design(input,condition,comparison = comparison)
+NHBE_COV2_vs_Mock = suppressMessages(CallLimma(COUNTS.input,design,contmatrix))
+NHBE_COV2_vs_Mock = merge(FPKM[,1,drop=FALSE],NHBE_COV2_vs_Mock,by="row.names")
+
+
+Sign_NHBE_COV2_vs_Mock <- NHBE_COV2_vs_Mock[which(NHBE_COV2_vs_Mock$adj.P.Val < 0.05),]
+Sign_NHBE_COV2_vs_Mock_UP <- Sign_NHBE_COV2_vs_Mock[which( Sign_NHBE_COV2_vs_Mock$logFC > 0 ),]
+Sign_NHBE_COV2_vs_Mock_DOWN <- Sign_NHBE_COV2_vs_Mock[which(Sign_NHBE_COV2_vs_Mock$logFC < 0),]
+
+
+
+```
+
+Row {data-height=800}
+-------------------------------------
+
+### Heatmap NHBE - Sars_Cov2
+```{r}
+
+input <- metadata[which(metadata$Cell_Line == "NHBE"),c(1,9)]
+input = input[which(input$Comparison %in% c("SARS_MOCK_NHBE","SARS_Cov2_NHBE")),]
+
+Select_matrix = FPKM.summ
+rownames(Select_matrix) <- FPKM.summ$Gene_Symbol
+Select_matrix= Select_matrix[,-1]
+Select_matrix <- Select_matrix[as.matrix(Sign_NHBE_COV2_vs_Mock$Gene_Symbol),as.matrix(input$Sample.Name)]
+
+Select_matrix <- Select_matrix[which(rowSums(Select_matrix) !=0 ),]
+
+classanno = ggsci::pal_lancet()(2)
+names(classanno) = unique(input$Comparison)
+classanno = list(Comparison = classanno)
+input_anno = input
+rownames(input_anno)=input_anno$Sample.Name
+input_anno=input_anno[,-1,drop=FALSE]
+pheatmap(as.matrix( log2(Select_matrix+1)),
+         annotation = input_anno,
+         color = hmcols,border_color = 'grey',
+         scale="row",fontsize_row = 3,annotation_colors = classanno,
+         main = paste("N=",nrow(Select_matrix)," Genes - NHBE -SARS_CoV2")
+)
+
+
+
+```
+
+### Volcano Plot - Sars_Cov2 NHBE
+```{r volcanoSARSCov2NHBE }
+
+res = NHBE_COV2_vs_Mock
+with(res, plot(logFC, -log10(P.Value), pch=20, main="NHBE SARS-CoV2 Volcano plot", xlim=c(-6,8)))
+
+# Add colored points: red if padj<0.05, orange of log2FC>1, green if both)
+with(subset(res, adj.P.Val<.05 ), points(logFC, -log10(P.Value), pch=20, col="red"))
+with(subset(res, abs(logFC)>1), points(logFC, -log10(P.Value), pch=20, col="orange"))
+with(subset(res, adj.P.Val<.05 & abs(logFC)>1), points(logFC, -log10(P.Value), pch=20, col="green"))
+
+# Label points with the textxy function from the calibrate plot
+library(calibrate)
+with(subset(res, adj.P.Val<.05 & abs(logFC)>1), textxy(logFC, -log10(P.Value), labs=Gene_Symbol, cex=.5))
+
+```
+
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+
+### DE Stats all genes ( NHBE SARS_CoV2 vs. Mock_Cov2)
+```{r allgenesNHBE_Cov2}
+NHBE_COV2_vs_Mock = NHBE_COV2_vs_Mock[order(NHBE_COV2_vs_Mock$P.Value),]
+datatable(NHBE_COV2_vs_Mock, extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+### Significanty Upregulated genes in SAR-CoV2 NHBE (FDR < 0.05) ( NHBE SARS_CoV2 vs. Mock_Cov2)
+```{r Significant_COv2_NHBE_UP, echo  = FALSE}
+Sign_NHBE_COV2_vs_Mock_UP = Sign_NHBE_COV2_vs_Mock_UP[order(Sign_NHBE_COV2_vs_Mock_UP$P.Value),]
+datatable(Sign_NHBE_COV2_vs_Mock_UP,extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+### Significanty Downregulated genes in SAR-CoV2 NHBE( N=180, FDR < 0.05) ( NHBE SARS_CoV2 vs. Mock_Cov2)
+```{r Significant_COv2_NHBE_DN, echo  = FALSE}
+Sign_NHBE_COV2_vs_Mock_DOWN = Sign_NHBE_COV2_vs_Mock_DOWN[order(Sign_NHBE_COV2_vs_Mock_DOWN$P.Value),]
+
+datatable(Sign_NHBE_COV2_vs_Mock_DOWN, extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE))
+
+```
+
+```{r GSEA_NHBE, echo  = FALSE}
+
+library(fgsea)
+library(qusage)
+
+KEGG_DB = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c2.cp.kegg.v6.2.symbols.gmt')
+REACTOME_DB = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c2.cp.reactome.v6.2.symbols.gmt')
+GO_BP = read.gmt('~/Desktop/All_Projects/GMT_Pathways_for_FGSEA/c5.bp.v7.0.symbols.gmt')
+input_ranked = NHBE_COV2_vs_Mock$t
+names(input_ranked) = NHBE_COV2_vs_Mock$Gene_Symbol
+
+NHBE_KEGG = fgsea(KEGG_DB,stats = input_ranked,nperm = 10000,minSize = 15)
+NHBE_reactome = fgsea(REACTOME_DB,stats = input_ranked,nperm = 10000,minSize = 15)
+NHBE_GO = fgsea(GO_BP,stats = input_ranked,nperm = 10000,minSize = 15)
+
+
+```
+
+
+NHBE - Pathways
+=======================================================================
+
+Row {data-height=400}
+-------------------------------------
+
+### Pathway analysis summary
+
+  **GSEA Pathway analysis perforemd on NHBE SARS-Cov2 ( MOI 2)  vs. SARS2-Cov2-Mock**
+  
+  * Using the Following Databses:
+  
+    * KEGG (Version 6.2 msigDB)
+    * REACTOME (Version 6.2 msigDB )
+    * GO Biological Processes (Version 7 msigDB)
+  
+  * FDR < 0.25 
+  
+Row {.tabset .tabset-fade}
+-------------------------------------
+### KEGG Significanty Enriched Pathway Up in NHBE-SARS_Cov2 ( FDR < 0.25)
+
+
+```{r Significant_COv2_NHBE_KEGGUP, echo  = FALSE}
+datatable(A549_KEGG[which(NHBE_KEGG$padj < 0.25 & NHBE_KEGG$NES > 0),], 
+          extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+
+```
+
+### KEGG Significanty Enriched Pathway Down in NHBE-SARS_Cov2 ( FDR < 0.25)
+
+
+```{r Significant_COv2_NHBE_KEGGDN, echo  = FALSE}
+datatable(A549_KEGG[which(NHBE_KEGG$padj < 0.25 & NHBE_KEGG$NES < 0),], 
+          extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+
+```
+
+### REACTOME Significanty Enriched Pathway Up in NHBE-SARS_Cov2 ( FDR < 0.25)
+
+
+```{r Significant_COv2_NHBE_ReactomeUP, echo  = FALSE}
+NHBE_reactome = NHBE_reactome[order(NHBE_reactome$padj),]
+datatable(NHBE_reactome[which(NHBE_reactome$padj < 0.25 & NHBE_reactome$NES > 0),], 
+          extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+
+```
+
+### REACTOME Significanty Enriched Pathway Down in NHBE-SARS_Cov2 ( FDR < 0.25)
+
+
+```{r Significant_COv2_NHBE_ReactomeDN, echo  = FALSE}
+NHBE_reactome = NHBE_reactome[order(NHBE_reactome$padj),]
+datatable(NHBE_reactome[which(NHBE_reactome$padj < 0.25 & NHBE_reactome$NES < 0),], 
+          extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE)
+)
+
+```
+
+### GO Pathways - Significanty Enriched Pathway Up in NHBE-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_NHBE_GO_UP, echo  = FALSE}
+NHBE_GO = NHBE_GO[order(NHBE_GO$padj),]
+datatable(NHBE_GO[which(NHBE_GO$padj < 0.25 & NHBE_GO$NES > 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+  )
+    
+)
+
+```
+
+### GO Pathways - Significanty Enriched Pathway Down in NHBE-SARS_Cov2 ( FDR < 0.25)
+```{r Significant_COv2_NHBE_GO_DN, echo  = FALSE}
+NHBE_GO = NHBE_GO[order(NHBE_GO$padj),]
+datatable(NHBE_GO[which(NHBE_GO$padj < 0.25 & NHBE_GO$NES < 0),], extensions = c('Buttons','Scroller'),class = 'cell-border stripe',options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+  )
+    
+)
+
+```
+
+
+
+
+Overlapping Gene Changes
+=======================================================================
+
+Row {data-height=600}
+-------------------------------------
+
+
+```{r Overlap_NHBE_A459, echo  = FALSE}
+
+library(GeneOverlap) 
+## List of all genes significant de up / down ( FDR < 0.05)
+Overlap_NHBEwithA549 = list(A549_Genes_UP = Sign_A549_COV2_vs_Mock_UP$Gene_Symbol,
+                            A549_Genes_DOWN =Sign_A549_COV2_vs_Mock_DOWN$Gene_Symbol,
+                            NHBE_Genes_UP =Sign_NHBE_COV2_vs_Mock_UP$Gene_Symbol,
+                            NHBE_Genes_DOWN =Sign_NHBE_COV2_vs_Mock_DOWN$Gene_Symbol)
+
+Overlap_NHBEwithA549.gom = newGOM(Overlap_NHBEwithA549,genome.size = 25000)
+ # overlapobj= drawHeatmap(Overlap_NHBEwithA549.gom ,adj.p = TRUE,grid.col="Blues", note.col="black",cutoff = 0.05)
+
+
+
+
+```
+### Comparing Genes between A549 and NHBE - Sars-Cov2
+
+![Analyzed using GeneOverlap](overlap_NHBE_A549_SARS_CoV2.jpeg)
+
+Row
+------------------------------------------------------------------------
+
+### List of Shared Upregulated Genes ###
+
+```{r Overlap_NHBE_A459genes, echo  = FALSE}
+
+library(GeneOverlap)
+overlap_up_genes = as.matrix(intersect(Overlap_NHBEwithA549$A549_Genes_UP,Overlap_NHBEwithA549$NHBE_Genes_UP))
+datatable(overlap_up_genes,extensions = c('Buttons','Scroller'),class = 'cell-border stripe',colnames="Upregulated Genes Shared in NHBE and A549 Sars-Cov2 infected",options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+  ))
+ 
+
+```
+
+
+<!-- ### overlapping in NHBE & A549 - Sars_Cov2 -->
+<!-- ```{r, include=FALSE} -->
+<!-- library(gdata) -->
+<!-- # Overlap_logFC_NHBE_A549 = merge(Sign_A549_COV2_vs_Mock,Sign_NHBE_COV2_vs_Mock,by="Gene_Symbol",all.x = TRUE,all.y = TRUE, suffixes = c("_A549","_NHBE")) -->
+<!-- # Overlap_logFC_NHBE_A549 = Overlap_logFC_NHBE_A549[,c(1,3,9)] -->
+<!-- # Overlap_logFC_NHBE_A549 = NAToUnknown(as.matrix(Overlap_logFC_NHBE_A549),0) -->
+<!-- # Overlap_logFC_NHBE_A549 = as.data.frame(Overlap_logFC_NHBE_A549) -->
+<!-- # rownames(Overlap_logFC_NHBE_A549)  = Overlap_logFC_NHBE_A549$Gene_Symbol -->
+<!-- # Overlap_logFC_NHBE_A549 = Overlap_logFC_NHBE_A549[,-1] -->
+<!-- # Overlap_logFC_NHBE_A549$logFC_A549 = as.numeric(as.character(Overlap_logFC_NHBE_A549$logFC_A549)) -->
+<!-- # Overlap_logFC_NHBE_A549$logFC_NHBE = as.numeric(as.character(Overlap_logFC_NHBE_A549$logFC_NHBE)) -->
+<!-- #  -->
+<!-- #  -->
+<!-- # Select_matrix = Overlap_logFC_NHBE_A549 -->
+<!-- # Select_matrix <- Select_matrix[which(rowSums(Select_matrix) !=0 ),] -->
+<!-- #  -->
+<!-- # classanno = ggsci::pal_lancet()(4) -->
+<!-- # names(classanno) = unique(input$Comparison) -->
+<!-- # classanno = list(Comparison = classanno) -->
+<!-- # input_anno = input -->
+<!-- # rownames(input_anno)=input_anno$Sample.Name -->
+<!-- # input_anno=input_anno[,-1,drop=FALSE] -->
+<!-- # pheatmap(as.matrix( Select_matrix), clustering_distance_rows = 'euclidean', -->
+<!-- #          #annotation = input_anno,clustering_distance_cols = "euclidean", -->
+<!-- #          color = hmcols,border_color = 'grey', -->
+<!-- #          scale="column",fontsize_row = 2, -->
+<!-- #          #fontsize_row = 9,annotation_colors = classanno, -->
+<!-- #       #   main = paste("N=",nrow(Select_matrix)," Overlapping Genes - A549 & NHBE -SARS_CoV2") -->
+<!-- # ) -->
+<!-- #  -->
+<!-- # library(openxlsx) -->
+<!-- # DE_549_Published = read.xlsx(xlsxFile = 'A549_DE_results_biorxv.xlsx',sheet = 2) -->
+<!-- # DE_549_Published$padj = as.numeric(DE_549_Published$padj) -->
+<!-- # DE_549_Published$log2FoldChange = as.numeric(DE_549_Published$log2FoldChange) -->
+<!-- # DE_549_Published = DE_549_Published[which(DE_549_Published$padj < 0.05),] -->
+<!-- #  -->
+
+
+
+<!-- ``` -->
+
+Row {data-height=800}
+-------------------------------------
+
+### Heatmap Overlapping Genes in NHBE & A549 - Sars_Cov2
+```{r}
+
+input <- metadata[,c(1,9)]
+input = input[which(input$Comparison %in% c("SARS_MOCK_NHBE","SARS_Cov2_NHBE","SARS_MOCK_A549","SARS_Cov2_A549")),]
+
+Select_matrix = FPKM.summ
+rownames(Select_matrix) <- FPKM.summ$Gene_Symbol
+Select_matrix= Select_matrix[,-1]
+Select_matrix <- Select_matrix[as.matrix(overlap_up_genes),as.matrix(input$Sample.Name)]
+
+Select_matrix <- Select_matrix[which(rowSums(Select_matrix) !=0 ),]
+
+classanno = ggsci::pal_lancet()(4)
+names(classanno) = unique(input$Comparison)
+classanno = list(Comparison = classanno)
+input_anno = input
+rownames(input_anno)=input_anno$Sample.Name
+input_anno=input_anno[,-1,drop=FALSE]
+pheatmap(as.matrix( log2(Select_matrix+1)),
+         annotation = input_anno,clustering_distance_cols = "euclidean",
+         color = hmcols,border_color = 'grey',
+         scale="row",fontsize_row = 9,annotation_colors = classanno,
+         main = paste("N=",nrow(Select_matrix)," Overlapping Genes - A549 & NHBE -SARS_CoV2")
+)
+
+
+
+```
+
